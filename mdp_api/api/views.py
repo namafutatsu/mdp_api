@@ -15,51 +15,7 @@ from rest_framework.response import Response
 from . import models
 from .serializers import (
     CurrentUserSerializer,
-    EventSerializer,
-    LocationSerializer,
-    OrganizationSerializer,
 )
-
-
-class EventViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = EventSerializer
-
-    def list(self, request, format=None):
-        return super().list(request, format=format)
-
-    def get_queryset(self):
-        now = timezone.now()
-        return models.Event.objects.filter(
-            start__gte=now,
-        ).prefetch_related(
-            'tags',
-            'languages_spoken',
-        ).select_related(
-            'location',
-            'organization'
-        )
-
-    @action(methods=['post'], detail=True, permission_classes=(IsAuthenticated, ))
-    def like(self, request, pk=None):
-        event = self.get_object()
-        like, created = models.EventLike.objects.get_or_create(
-            event=event,
-            user=request.user,
-        )
-        if not created:
-            like.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response({}, status=status.HTTP_201_CREATED)
-
-
-class LocationViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Location.objects.all()
-    serializer_class = LocationSerializer
-
-
-class OrganizationViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = models.Organization.objects.all()
-    serializer_class = OrganizationSerializer
 
 
 class CurrentUserView(generics.RetrieveAPIView):
@@ -67,9 +23,7 @@ class CurrentUserView(generics.RetrieveAPIView):
     queryset = (
         get_user_model()
         .objects
-        .prefetch_related(
-            'event__likes',
-        )
+        .all()
     )
 
     def retrieve(self, request, *args, **kwargs):
@@ -81,6 +35,3 @@ class CurrentUserView(generics.RetrieveAPIView):
 
 
 router = routers.DefaultRouter()
-router.register(r'events', EventViewSet, base_name='event')
-router.register(r'locations', LocationViewSet)
-router.register(r'organizations', OrganizationViewSet)

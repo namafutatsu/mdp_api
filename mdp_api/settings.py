@@ -1,3 +1,4 @@
+import json
 import os
 import dj_database_url
 
@@ -17,9 +18,9 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
-USE_I18N = True
-USE_L10N = True
-USE_TZ = True
+USE_I18N = False
+USE_L10N = False
+USE_TZ = False
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
@@ -96,7 +97,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.staticfiles',
 
-    'mapwidgets',
+    'phonenumber_field',
+    'places',
 ]
 
 MIDDLEWARE = [
@@ -174,16 +176,6 @@ HAS_RECAPTCHA = ENVIRONMENT != 'dev' and GOOGLE_RECAPTCHA_SECRET_KEY is not None
 
 GOOGLE_MAPS_JAVASCRIPT_API_KEY = os.environ.get('GOOGLE_MAPS_JAVASCRIPT_API_KEY', None)
 
-MAP_WIDGETS = {
-    'GOOGLE_MAP_API_KEY': GOOGLE_MAPS_JAVASCRIPT_API_KEY,
-    'LANGUAGE': 'fr',
-    'GooglePointFieldWidget': (
-        ('zoom', 14),
-        ('mapCenterLocationName', 'paris'),
-        ('markerFitZoom', 12),
-    ),
-}
-
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
@@ -191,4 +183,10 @@ CACHES = {
     }
 }
 
-API_EVENT_LIST_CACHE_DURATION = int(os.environ.get('API_EVENT_LIST_CACHE_DURATION', 60 * 60 * 24))
+PLACES_MAPS_API_KEY = GOOGLE_MAPS_JAVASCRIPT_API_KEY
+PLACES_MAP_WIDGET_HEIGHT = 300
+PLACES_MAP_OPTIONS = json.dumps({
+    'center': { 'lat': 48, 'lng': 2 },
+    'zoom': 5
+})
+PLACES_MARKER_OPTIONS = json.dumps({ 'draggable': False })

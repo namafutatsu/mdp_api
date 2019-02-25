@@ -4,6 +4,7 @@ import textwrap
 from django.conf import settings
 from django.contrib.gis.db import models as gis_models
 from django.core.cache import cache
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db import IntegrityError
 from django.db.models.signals import post_save
@@ -12,6 +13,8 @@ from django import forms
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
+from places.fields import PlacesField
+from phonenumber_field.modelfields import PhoneNumberField
 from rest_framework.authtoken.models import Token
 
 from . import enums
@@ -43,115 +46,41 @@ class NameSlugMixin(models.Model):
         cache.clear()
 
 
-class EventLike(models.Model):
-    event = models.ForeignKey(
-        'mdp_api_api.Event',
-        related_name='likes',
-        on_delete=models.CASCADE
-    )
-    user = models.ForeignKey(
-        'mdp_api.User',
-        related_name='likes',
-        on_delete=models.CASCADE
-    )
-
-    def __str__(self):
-        return "Like from %s on %s" % (self.user, self.event)
-
-
-class EventTag(models.Model):
-    name = models.CharField(
-        max_length=32,
-        choices=enums.EVENT_TAG_CHOICES,
-    )
-
-    def __str__(self):
-        return str(enums.EVENT_TAG_DICT[self.name])
-
-
-class Language(models.Model):
-    code = models.CharField(
-        max_length=32,
-        choices=enums.LANGUAGE_CHOICES,
-    )
-
-    def __str__(self):
-        return str(enums.LANGUAGES_DICT[self.code])
-
-
-class Event(NameSlugMixin):
-    slug = models.SlugField(max_length=255)
-    created_by = models.ForeignKey('mdp_api.User', on_delete=models.PROTECT)
-    organization = models.ForeignKey('mdp_api_api.Organization', on_delete=models.PROTECT)
-    location = models.ForeignKey('mdp_api_api.Location', blank=True, null=True, on_delete=models.SET_NULL)
-    summary = models.TextField()
-    description = models.TextField()
-    external_url = models.URLField(max_length=255)
-    price = models.DecimalField(
-        verbose_name=_(u"price (player)"),
-        help_text="To be expressed in the event's currency",
-        max_digits=10,
-        decimal_places=2,
-        blank=True,
-        null=True,
-    )
-    npc_price = models.DecimalField(
-        verbose_name=_(u"price (NPC)"),
-        help_text="To be expressed in the event's currency",
-        max_digits=10,
-        decimal_places=2,
-        blank=True,
-        null=True,
-    )
-    start = models.DateTimeField(verbose_name=_(u"start"))
-    event_format = models.CharField(
-        max_length=32,
-        choices=enums.EVENT_FORMAT_CHOICES,
-        default=enums.EVENT_FORMAT_SHORT,
-    )
-    currency = models.CharField(
-        max_length=32,
-        choices=enums.CURRENCY_CHOICES,
-        default=enums.CURRENCY_EUR,
-    )
-    facebook_event = models.URLField(max_length=255, blank=True, null=True)
-    facebook_page = models.URLField(max_length=255, blank=True, null=True)
-    facebook_group = models.URLField(max_length=255, blank=True, null=True)
-    player_signup_page = models.URLField(max_length=255, blank=True, null=True)
-    npc_signup_page = models.URLField(max_length=255, blank=True, null=True)
-
-    tags = models.ManyToManyField(EventTag, related_name='events', blank=True)
-
-    languages_spoken = models.ManyToManyField(Language, related_name='events', blank=True)
-
-    class Meta:
-        unique_together = (('name', 'start'),)
-
-
-class Organization(NameSlugMixin):
-    """Register an event's organizer. Except for its name, we don't have much info yet :/
-    """
+class ShopNetwork(NameSlugMixin):
     pass
 
 
-class Location(NameSlugMixin):
-    address = models.CharField(max_length=512, blank=True, null=True,
-        help_text="Leave blank if the location is still inaccurate",
+class ShopContact(NameSlugMixin):
+    # Usually a shop contact and a producer contact
+    kind = models.CharField(
+        max_length=32,
+        choices=enums.CONTACT_KINDS,
+        default=enums.CONTACT_SHOP,
     )
-    coords = gis_models.PointField(geography=True)
+    phone = PhoneNumberField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+
+
+class Shop(NameSlugMixin):
+    description = models.TextField()
+    highlights = models.TextField(blank=True, null=True)
+    location = PlacesField()
+    webpage = models.URLField(max_length=512, blank=True, null=True)
+    shop_contact = models.ForeignKey(ShopContact, on_delete=models.CASCADE)
+    network = models.ForeignKey(ShopNetwork, on_delete=models.PROTECT)
+    picture = models.ImageField(blank=True, null=True)
+
+class ShopComment(NameSlugMixin):
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    comment = models.TextField()
+    ranking = models.IntegerField(
+        default=5,
+        validators=[MaxValueValidator(5), MinValueValidator(1)],
+    )
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
-
-
-def force_save_all_models():
-    # Useful to reset all the slugs and the eventual modified_at properties.
-    for obj in Event.objects.all():
-        obj.save()
-    for obj in Organization.objects.all():
-        obj.save()
-    for obj in Location.objects.all():
-        obj.save()

@@ -17,18 +17,18 @@ setup(
     install_requires=[
         'dj-database-url>=0.4.1',
         'Django>=2',
+        'pillow',
         'psycopg2>=2.6.2',
         'whitenoise>=3.3.0',
         'djangorestframework',
         'django-countries',
-        'pillow',
         'dateparser',
-        'fuzzywuzzy',
         'requests',
         'django-widget-tweaks',
         'django-cors-headers',
-        'django-map-widgets',
-        'python-google-places',
+        'django-phonenumber-field',
+        'phonenumbers',
+        'dj-places',  # our fork
     ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",

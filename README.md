@@ -1,25 +1,10 @@
-# Backent
+# mdp_api
 
-A Backend that stores events and their locations, and serves them using an API.
+An API for the magasins de producteurs.
 
-## Running Locally
+Needs django-newsletter and a fork of the django-places app.
 
-
-```sh
-
-$ mkvirtualenv -p /usr/bin/python3 backent
-$ pip install -U pip setuptools
-$ pip install -r requirements.txt
-
-$ createdb backent
-
-$ python manage.py migrate
-$ python manage.py collectstatic
-$ ENVIRONMENT=dev python manage.py runserver
-
-```
-
-Your app should now be running on [localhost:8000](http://localhost:8000/).
+Get rollin' baby.
 
 ## LICENSE
 

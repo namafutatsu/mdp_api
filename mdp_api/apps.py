@@ -3,7 +3,7 @@ from django.contrib.admin.apps import AdminConfig
 
 
 class mdp_apiAdminSite(admin.AdminSite):
-    site_header = "CocoLarp admin"
+    site_header = "Magasin de Producteurs - Administration"
 
 
 class mdp_apiAdminConfig(AdminConfig):
