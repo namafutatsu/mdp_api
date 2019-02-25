@@ -45,12 +45,12 @@ class NameSlugMixin(models.Model):
 
 class EventLike(models.Model):
     event = models.ForeignKey(
-        'backent_api.Event',
+        'mdp_api_api.Event',
         related_name='likes',
         on_delete=models.CASCADE
     )
     user = models.ForeignKey(
-        'backent.User',
+        'mdp_api.User',
         related_name='likes',
         on_delete=models.CASCADE
     )
@@ -81,9 +81,9 @@ class Language(models.Model):
 
 class Event(NameSlugMixin):
     slug = models.SlugField(max_length=255)
-    created_by = models.ForeignKey('backent.User', on_delete=models.PROTECT)
-    organization = models.ForeignKey('backent_api.Organization', on_delete=models.PROTECT)
-    location = models.ForeignKey('backent_api.Location', blank=True, null=True, on_delete=models.SET_NULL)
+    created_by = models.ForeignKey('mdp_api.User', on_delete=models.PROTECT)
+    organization = models.ForeignKey('mdp_api_api.Organization', on_delete=models.PROTECT)
+    location = models.ForeignKey('mdp_api_api.Location', blank=True, null=True, on_delete=models.SET_NULL)
     summary = models.TextField()
     description = models.TextField()
     external_url = models.URLField(max_length=255)

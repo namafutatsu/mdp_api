@@ -2,9 +2,9 @@ from django.contrib import admin
 from django.contrib.admin.apps import AdminConfig
 
 
-class BackentAdminSite(admin.AdminSite):
+class mdp_apiAdminSite(admin.AdminSite):
     site_header = "CocoLarp admin"
 
 
-class BackentAdminConfig(AdminConfig):
-    default_site = 'backent.apps.BackentAdminSite'
+class mdp_apiAdminConfig(AdminConfig):
+    default_site = 'mdp_api.apps.mdp_apiAdminSite'

@@ -43,13 +43,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-PROJECT_HRID = 'backent'
+PROJECT_HRID = 'mdp_api'
 
-AUTH_USER_MODEL = 'backent.User'
+AUTH_USER_MODEL = 'mdp_api.User'
 
-ROOT_URLCONF = 'backent.urls'
+ROOT_URLCONF = 'mdp_api.urls'
 
-WSGI_APPLICATION = 'backent.wsgi.application'
+WSGI_APPLICATION = 'mdp_api.wsgi.application'
 
 LOGGING = {
     'version': 1,
@@ -78,9 +78,9 @@ LOGGING = {
 }
 
 INSTALLED_APPS = [
-    'backent',
-    'backent.apps.BackentAdminConfig',
-    'backent.api',
+    'mdp_api',
+    'mdp_api.apps.mdp_apiAdminConfig',
+    'mdp_api.api',
 
     'corsheaders',
     'django_countries',

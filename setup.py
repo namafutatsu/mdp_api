@@ -3,11 +3,11 @@
 from setuptools import find_packages, setup
 
 setup(
-    name="backent",
+    name="mdp_api",
     version="1.0.0",
     author="Victor Perron",
     author_email="victor@iso3103.net",
-    description="A backend for events",
+    description="A backend for places",
     license="CC-BY-SA",
     keywords="",
     url="",

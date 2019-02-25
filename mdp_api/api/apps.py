@@ -2,6 +2,6 @@ from django.apps import AppConfig
 
 
 class DefaultConfig(AppConfig):
-    name = 'backent.api'
-    label = 'backent_api'
-    verbose_name = "Backent API"
+    name = 'mdp_api.api'
+    label = 'mdp_api_api'
+    verbose_name = "mdp_api API"

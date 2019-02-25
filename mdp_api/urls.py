@@ -6,8 +6,8 @@ admin.autodiscover()
 
 from rest_framework.authtoken import views
 
-from backent.api.views import router
-from backent.api.views import CurrentUserView
+from mdp_api.api.views import router
+from mdp_api.api.views import CurrentUserView
 
 from .views import json_signup, signup
 
