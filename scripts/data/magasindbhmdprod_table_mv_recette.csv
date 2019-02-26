@@ -1,0 +1,7 @@
+"rec_id","rec_nom","rec_auteur","rec_prepa","rec_cuisson","rec_base","rec_valide","rec_avertissement","rec_ing","rec_repos"
+"10","Des bonnes fraises au sucre","1","15","0","4","0","Servir Frais","|125|0|0|","0"
+"11","Salade sucrÃÂ©e-salÃÂ©e de melon ÃÂ  la feta","3","10","0","2","0",,"|134|0|0|","0"
+"12","Salade de tomates et avocats","3","10","0","1","0",,"|59|162|0|","0"
+"13","Gigot d&#146;agneau au miel et thym","3","15","30","4","0","Le temps de cuisson est fonction du poids du gigot. Comptez 30 minutes pour un gigot d&#146;1kg, 40 minutes pour un gigot d&#146;1,5kg et 50 minutes pour un gigot de 2kg.","|186|303|0|","0"
+"15","PÃÂ¢tÃÂ© de campagne accompagnÃÂ© d&#146;une confiture d&#146;oignons","3","3","0","1","0",,"|368|300|0|","0"
+"16","Une recette test","1","20","0","4","0",,"|232|6|0|","0"
