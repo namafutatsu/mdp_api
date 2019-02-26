@@ -103,7 +103,7 @@ if __name__ == '__main__':
         )
         img_name = 'shop_%s.png' % int(dct['m_id'])
         with open('scripts/shop-images/%s' % img_name, 'rb') as f:
-            shop.picture.save(img_name, File(f))
+            shop.picture.save("%s.png" % dct['m_id'], File(f))
     import os; os._exit(0)
 
     places = [ShopData(**dct) for dct in read_csv_data(args.shops_filename)]
