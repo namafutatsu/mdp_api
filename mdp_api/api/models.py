@@ -69,7 +69,7 @@ class Shop(NameSlugMixin):
     coords = gis_models.PointField(geography=True)
     webpage = models.URLField(max_length=512, blank=True, null=True)
     network = models.ForeignKey(ShopNetwork, blank=True, null=True, on_delete=models.PROTECT)
-    picture = models.ImageField(blank=True, null=True)
+    picture = models.ImageField(blank=True, null=True, upload_to='shop_images/')
     phone = PhoneNumberField(blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     organic_level = models.CharField(max_length=255, choices=enums.ORGANIC_LEVELS)

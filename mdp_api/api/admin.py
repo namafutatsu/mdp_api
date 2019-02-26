@@ -3,6 +3,7 @@ from time import gmtime, strftime
 from django.contrib import admin
 from django.contrib.gis.db import models as gis_models
 from django.db import models as django_models
+from django.utils.html import mark_safe
 
 from mapwidgets.widgets import GooglePointFieldWidget
 
@@ -20,6 +21,16 @@ class GenericAdmin(admin.ModelAdmin):
 @admin.register(models.Shop)
 class ShopAdmin(GenericAdmin):
     ordering = ('name',)
+
+    readonly_fields = ["shop_image"]
+
+    def shop_image(self, obj):
+        return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
+            url = obj.picture.url,
+            width=obj.picture.width,
+            height=obj.picture.height,
+        )
+    )
 
 
 @admin.register(models.ShopNetwork)

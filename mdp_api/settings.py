@@ -1,6 +1,7 @@
 import json
 import os
 import dj_database_url
+import tempfile
 
 ENVIRONMENT = os.environ.get('ENVIRONMENT', 'prod')
 
@@ -21,6 +22,12 @@ TIME_ZONE = 'UTC'
 USE_I18N = False
 USE_L10N = False
 USE_TZ = False
+
+MEDIA_URL = '/media/'
+if ENVIRONMENT == 'prod':
+    MEDIA_ROOT = '/var/www/media'
+elif ENVIRONMENT == 'test':
+    MEDIA_ROOT = '/tmp/mdp-api/media'
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
