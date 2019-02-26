@@ -28,7 +28,8 @@ setup(
         'django-cors-headers',
         'django-phonenumber-field',
         'phonenumbers',
-        'dj-places',  # our fork
+        'django-map-widgets',
+        'django-countries',
     ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",

@@ -13,7 +13,7 @@ from django import forms
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
-from places.fields import PlacesField
+from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
 from rest_framework.authtoken.models import Token
 
@@ -43,35 +43,40 @@ class NameSlugMixin(models.Model):
                 break
             self.slug = '%s-%d' % (orig, x)
         super().save(*args, **kwargs)
-        cache.clear()
 
 
 class ShopNetwork(NameSlugMixin):
-    pass
+    description = models.TextField(null=True, blank=True)
+    webpage = models.URLField(max_length=512, blank=True, null=True)
 
 
-class ShopContact(NameSlugMixin):
-    # Usually a shop contact and a producer contact
-    kind = models.CharField(
-        max_length=32,
-        choices=enums.CONTACT_KINDS,
-        default=enums.CONTACT_SHOP,
-    )
-    phone = PhoneNumberField(blank=True, null=True)
-    email = models.EmailField(blank=True, null=True)
+class ShopRegion(NameSlugMixin):
+    coords = gis_models.PointField(geography=True)
+    description = models.TextField()
+    legacy_google = models.IntegerField(blank=True, null=True)
 
 
 class Shop(NameSlugMixin):
+    is_active = models.BooleanField(default=True)
     description = models.TextField()
     highlights = models.TextField(blank=True, null=True)
-    location = PlacesField()
+    address = models.CharField(max_length=255)
+    zipcode = models.CharField(max_length=10)
+    city = models.CharField(max_length=255)
+    state = models.CharField(max_length=255, choices=enums.FRENCH_DEPARTMENTS)
+    region = models.ForeignKey(ShopRegion, on_delete=models.PROTECT)
+    country = CountryField(default='FR')
+    coords = gis_models.PointField(geography=True)
     webpage = models.URLField(max_length=512, blank=True, null=True)
-    shop_contact = models.ForeignKey(ShopContact, on_delete=models.CASCADE)
-    network = models.ForeignKey(ShopNetwork, on_delete=models.PROTECT)
+    network = models.ForeignKey(ShopNetwork, blank=True, null=True, on_delete=models.PROTECT)
     picture = models.ImageField(blank=True, null=True)
+    phone = PhoneNumberField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    organic_level = models.CharField(max_length=255, choices=enums.ORGANIC_LEVELS)
+
 
 class ShopComment(NameSlugMixin):
-    shop = models.ForeignKey(Shop, on_delete=models.CASCADE)
+    shop = models.ForeignKey(Shop, related_name='comments', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     comment = models.TextField()
     ranking = models.IntegerField(

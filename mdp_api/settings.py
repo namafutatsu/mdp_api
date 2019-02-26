@@ -84,7 +84,6 @@ INSTALLED_APPS = [
     'mdp_api.api',
 
     'corsheaders',
-    'django_countries',
     'rest_framework',
     'rest_framework.authtoken',
     'widget_tweaks',
@@ -98,7 +97,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'phonenumber_field',
-    'places',
+    'mapwidgets',
+    'django_countries',
 ]
 
 MIDDLEWARE = [
@@ -183,10 +183,12 @@ CACHES = {
     }
 }
 
-PLACES_MAPS_API_KEY = GOOGLE_MAPS_JAVASCRIPT_API_KEY
-PLACES_MAP_WIDGET_HEIGHT = 300
-PLACES_MAP_OPTIONS = json.dumps({
-    'center': { 'lat': 48, 'lng': 2 },
-    'zoom': 5
-})
-PLACES_MARKER_OPTIONS = json.dumps({ 'draggable': False })
+MAP_WIDGETS = {
+    'GOOGLE_MAP_API_KEY': GOOGLE_MAPS_JAVASCRIPT_API_KEY,
+    'LANGUAGE': 'fr',
+    'GooglePointFieldWidget': (
+        ('zoom', 6),
+        ('mapCenterLocationName', 'paris'),
+        ('markerFitZoom', 12),
+    ),
+}
