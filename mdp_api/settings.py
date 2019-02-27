@@ -24,10 +24,11 @@ USE_L10N = False
 USE_TZ = False
 
 MEDIA_URL = '/media/'
-if ENVIRONMENT == 'prod':
-    MEDIA_ROOT = '/var/www/media'
-elif ENVIRONMENT == 'test':
+
+if ENVIRONMENT == 'dev':
     MEDIA_ROOT = '/tmp/mdp-api/media'
+else:
+    MEDIA_ROOT = os.environ.get('MEDIA_ROOT', '/var/www/mdp-api/media')
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
