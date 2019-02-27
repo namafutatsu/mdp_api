@@ -56,6 +56,15 @@ class ShopRegion(NameSlugMixin):
     legacy_google = models.IntegerField(blank=True, null=True)
 
 
+class ShopQuerySet(models.QuerySet):
+
+    def actives(self, **kwargs):
+        return self.filter(
+            is_active=True,
+            **kwargs,
+        )
+
+
 class Shop(NameSlugMixin):
     is_active = models.BooleanField(default=True)
     description = models.TextField()
@@ -73,6 +82,8 @@ class Shop(NameSlugMixin):
     phone = PhoneNumberField(blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     organic_level = models.CharField(max_length=255, choices=enums.ORGANIC_LEVELS)
+
+    objects = ShopQuerySet.as_manager()
 
 
 class ShopComment(NameSlugMixin):
