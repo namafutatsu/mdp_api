@@ -56,6 +56,11 @@ class ShopRegion(NameSlugMixin):
     legacy_google = models.IntegerField(blank=True, null=True)
 
 
+class FrenchDepartment(NameSlugMixin):
+    code = models.CharField(max_length=3)
+    region = models.ForeignKey(ShopRegion, on_delete=models.CASCADE)
+
+
 class ShopQuerySet(models.QuerySet):
 
     def actives(self, **kwargs):

@@ -18,7 +18,7 @@ django.setup()
 
 from mdp_api.models import User
 from mdp_api.api import enums
-from mdp_api.api.models import Shop, ShopNetwork, ShopRegion
+from mdp_api.api.models import Shop, ShopNetwork, ShopRegion, FrenchDepartment
 
 
 ALL_DEPARTMENTS = [item[0] for item in enums.FRENCH_DEPARTMENTS]
@@ -40,10 +40,12 @@ if __name__ == '__main__':
     parser.add_argument('network_filename', metavar='NETWORK_FILE NAME', help='the input networks CSV filename')
     parser.add_argument('shops_filename', metavar='SHOPS_FILE NAME', help='the input shops CSV filename')
     parser.add_argument('users_filename', metavar='USERS_FILE NAME', help='the input users CSV filename')
+    parser.add_argument('departments_filename', metavar='DEPARTMENTS_FILE NAME', help='the input departments CSV filename')
     args = parser.parse_args()
 
     User.objects.all().delete()
     Shop.objects.all().delete()
+    FrenchDepartment.objects.all().delete()
     ShopRegion.objects.all().delete()
     ShopNetwork.objects.all().delete()
 
@@ -55,6 +57,19 @@ if __name__ == '__main__':
             description=clean(dct['reg_desc']),
             coords=Point(float(dct['reg_long']), float(dct['reg_lat'])),
         )
+
+    for dct in read_csv_data(args.departments_filename):
+        try:
+            name = clean(dct['dpt_name'])
+            region = int(dct['region'])
+            FrenchDepartment.objects.create(
+                pk=int(dct['dpt_id']),
+                name=name,
+                region=ShopRegion.objects.get(pk=region),
+            )
+        except (ValueError, ShopRegion.DoesNotExist):
+            print(">>>>>>> error: department=%s region=%s does not exist" % (name, region))
+            continue
 
     for dct in read_csv_data(args.network_filename):
         ShopNetwork.objects.create(

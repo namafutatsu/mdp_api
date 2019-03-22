@@ -8,9 +8,37 @@ Get rollin' baby.
 
 # Injection
 
-(mdp_api) [victor@M]<~/perso/mdp-api> ENVIRONMENT=dev python inject.py scripts/data/magasindbhmdprod_table_mv_region.csv scripts/mv_reseau.csv scripts/mv_magasin.csv scripts/data/magasindbhmdprod_table_mv_user.csv
+(mdp_api) [victor@M]<~/perso/mdp-api> ENVIRONMENT=dev python inject.py scripts/data/magasindbhmdprod_table_mv_region.csv scripts/mv_reseau.csv scripts/mv_magasin.csv scripts/data/magasindbhmdprod_table_mv_user.csv  scripts/data/magasindbhmdprod_table_mv_global_departement.csv
 /home/victor/.virtualenvs/mdp_api/lib/python3.6/site-packages/psycopg2/__init__.py:144: UserWarning: The psycopg2 wheel package will be renamed from release 2.8; in order to keep installing from binary please use "pip install psycopg2-binary" instead. For details see: <http://initd.org/psycopg/docs/install.html#binary-install-from-pypi>.
   """)
+>>>>>>> error: department=Guadeloupe region=23 does not exist
+>>>>>>> error: department=Martinique region=35 does not exist
+>>>>>>> error: department=Guyane region=36 does not exist
+>>>>>>> error: department=La Réunion region=38 does not exist
+>>>>>>> error: department=Nouvelle-Calédonie region=37 does not exist
+>>>>>>> error: department=Mayotte region=38 does not exist
+>>>>>>> error: department=Polynésie FranÃ§aise region=34 does not exist
+>>>>>>> error: department=Allemagne region=92 does not exist
+>>>>>>> error: department=Belgique region=92 does not exist
+>>>>>>> error: department=Espagne region=92 does not exist
+>>>>>>> error: department=Italie region=92 does not exist
+>>>>>>> error: department=Luxembourg region=92 does not exist
+>>>>>>> error: department=Pays-bas region=92 does not exist
+>>>>>>> error: department=Royaume-Uni region=92 does not exist
+>>>>>>> error: department=Suisse region=92 does not exist
+>>>>>>> error: department=Autres pays d'Europe region=92 does not exist
+>>>>>>> error: department=Algérie region=90 does not exist
+>>>>>>> error: department=Cameroun region=90 does not exist
+>>>>>>> error: department=Cote d’Ivoire region=90 does not exist
+>>>>>>> error: department=Maroc region=90 does not exist
+>>>>>>> error: department=Sénégal region=90 does not exist
+>>>>>>> error: department=Tunisie region=90 does not exist
+>>>>>>> error: department=Autres pays africains region=90 does not exist
+>>>>>>> error: department=Canada region=91 does not exist
+>>>>>>> error: department=Etats-Unis region=91 does not exist
+>>>>>>> error: department=Proche/Moyen-Orient region=91 does not exist
+>>>>>>> error: department=Asie et Océanie region=91 does not exist
+>>>>>>> error: department=Amérique du Sud region=91 does not exist
 >>>>>>> error: shop=Chèvrefeuille region=0 does not exist
 >>>>>>> error: shop=Chez Mon Fermier region=0 does not exist
 >>>>>>> error: shop=Au Panier des 7 Vallées region=0 does not exist
