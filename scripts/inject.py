@@ -65,6 +65,7 @@ if __name__ == '__main__':
             FrenchDepartment.objects.create(
                 pk=int(dct['dpt_id']),
                 name=name,
+                code=clean(dct['dpt']),
                 region=ShopRegion.objects.get(pk=region),
             )
         except (ValueError, ShopRegion.DoesNotExist):
@@ -124,7 +125,6 @@ if __name__ == '__main__':
             shop.picture.save("%s.png" % dct['m_id'], File(f))
 
     for dct in read_csv_data(args.users_filename):
-        # "u_id","u_mail","u_mail_valid","u_pwd","u_valid","u_type","u_magid","u_tmp_magid","u_annee","u_sexe","u_pseudo","u_cp","u_visites","u_last_visit","u_creation","u_key","u_prod_fiche","u_tel"
         try:
             email = clean(dct['u_mail'])
             username = clean(dct['u_pseudo'])
