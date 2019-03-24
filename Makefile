@@ -1,8 +1,9 @@
-PROJECT := mdp_api
+PROJECT ?= mdp_api
+PREFIX ?= ENVIRONMENT=dev SECRET_KEY=caca MEDIA_ROOT=backups/media 
 
 
 clean:
-	rm -rf $(PROJECT)/staticfiles
+	rm -rf mdp_api/staticfiles
 	find . -name "*.pyc" -delete
 	find . -name "__pycache__" -delete
 
@@ -10,11 +11,11 @@ clean:
 setup: update resetdb
 
 prepare:
-	python manage.py migrate --noinput
-	python manage.py collectstatic --noinput
+	$(PREFIX) python manage.py migrate --noinput
+	$(PREFIX) python manage.py collectstatic --noinput
 
 serve: prepare
-	python manage.py runserver
+	$(PREFIX) python manage.py runserver
 
 
 update:
@@ -33,12 +34,10 @@ initdb:
 	psql -c "CREATE EXTENSION POSTGIS;" $(PROJECT)
 
 
-resetdb: initdb
-	./manage.py migrate
-	./manage.py loaddata initial-fixture.json
+resetdb: initdb prepare
 
 reset_test:
-	SECRET_KEY=caca ENVIRONMENT=dev python manage.py test
+	$(PREFIX) python manage.py test
 
 test:
-	SECRET_KEY=caca ENVIRONMENT=dev python manage.py test --keepdb
+	$(PREFIX) python manage.py test --keepdb
