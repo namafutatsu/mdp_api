@@ -77,11 +77,7 @@ class Shop(NameSlugMixin):
     address = models.CharField(max_length=255)
     zipcode = models.CharField(max_length=10)
     city = models.CharField(max_length=255)
-
-    state = models.CharField(max_length=255, choices=enums.FRENCH_DEPARTMENTS)
-    region = models.ForeignKey(ShopRegion, on_delete=models.PROTECT)
     department = models.ForeignKey(FrenchDepartment, on_delete=models.PROTECT)
-
     country = CountryField(default='FR')
     coords = gis_models.PointField(geography=True)
     webpage = models.URLField(max_length=512, blank=True, null=True)
