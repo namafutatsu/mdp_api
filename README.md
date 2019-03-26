@@ -53,6 +53,14 @@ Get rollin' baby.
 >>>>>>> error: user=contact@cooppaysanne.fr shop=335 does not exist
 >>>>>>> error: username=Luhei email=heisslerlucette@yahoo.fr already exists
 
+Une fois que ceci est fait cela ne suffit pas du tout. Il faut ensuite créer les départements sur la base des infos des magasins et pas du tout sur la
+base du fichier de global_departements.CSV qui a beau contenir les noms corrects et les bons numéros de département, il ne permet pas du tout de lier
+aux régions. Il y a peut etre moyen de rendre cela plus simple en partant d'une simple liste déclarative des départements et en associant les régions,
+ou en réécrivant un peu le process d'import.
+
+Par ailleurs il faut créer l'utilisateur victor, rendre manue staff, et envoyer les bonnes images sur le serveur.
+
+Enfin certains départements voire magasins ont des données encore encodées HTML qu'il faut corriger  à la main (double encodage...)
 ## LICENSE
 
 MIT
