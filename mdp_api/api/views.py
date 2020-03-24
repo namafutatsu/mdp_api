@@ -6,7 +6,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
 from rest_framework.decorators import action, api_view
-from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
+from rest_framework.generics import RetrieveAPIView
 from rest_framework import generics
 from rest_framework import routers
 from rest_framework import status
@@ -17,21 +18,29 @@ from rest_framework.response import Response
 from . import models
 from .serializers import (
     CurrentUserSerializer,
+    ShopDetailSerializer,
+    ShopListSerializer,
+    ShopNameListSerializer,
 )
 
 
-class Overview(APIView):
+class ShopNameList(ListAPIView):
     queryset = models.Shop.objects.actives()
+    serializer_class = ShopNameListSerializer
+    permission_classes = []
 
-    def get(self, request, format=None):
-        return Response({
-            'shop_count': models.Shop.objects.actives().count(),
-            'shops_per_region': (
-                models.ShopRegion.objects
-                .annotate(num_shops=Count('shop', filter=Q(shop__is_active=True)))
-                .values('pk', 'legacy_google', 'name', 'num_shops')
-            )
-        })
+
+class ShopList(ListAPIView):
+    queryset = models.Shop.objects.actives()
+    serializer_class = ShopListSerializer
+    permission_classes = []
+
+
+class ShopDetail(RetrieveAPIView):
+    lookup_field = 'slug'
+    queryset = models.Shop.objects.actives()
+    serializer_class = ShopDetailSerializer
+    permission_classes = []
 
 
 class CurrentUserView(generics.RetrieveAPIView):
