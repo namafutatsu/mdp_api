@@ -15,6 +15,7 @@ setup(
     python_requires='>=3.4.2',
     include_package_data=True,
     install_requires=[
+        'coreapi',
         'dj-database-url>=0.4.1',
         'Django>=2',
         'pillow',

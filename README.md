@@ -61,6 +61,7 @@ ou en réécrivant un peu le process d'import.
 Par ailleurs il faut créer l'utilisateur victor, rendre manue staff, et envoyer les bonnes images sur le serveur.
 
 Enfin certains départements voire magasins ont des données encore encodées HTML qu'il faut corriger  à la main (double encodage...)
+
 ## LICENSE
 
 MIT
